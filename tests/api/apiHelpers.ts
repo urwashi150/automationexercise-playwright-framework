@@ -8,7 +8,7 @@ export async function parseJsonResponse(response: APIResponse) {
   const contentType = response.headers()['content-type'] || '';
   const text = await response.text();
 
-  if (!contentType.includes('application/json')) {
+  if (!contentType.includes('application/json') && !contentType.includes('text/html')) {
     throw new Error(
       `Expected JSON response but got content-type=${JSON.stringify(contentType)}. Response body:\n${text.slice(0, 1000)}`
     );
