@@ -13,11 +13,13 @@ export class ProductsPage extends BasePage {
 
   async open() {
     await this.goto('/products');
+    await this.waitForVisible(ProductsPageSelectors.allProductsHeading, 20_000);
   }
 
   async searchProduct(name: string) {
     await this.fillField(ProductsPageSelectors.searchInput, name);
     await this.clickWhenReady(ProductsPageSelectors.searchBtn);
+    await this.waitForVisible(ProductsPageSelectors.searchedProductsHeading, 20_000);
   }
 
   async getProductCount(): Promise<number> {
@@ -33,6 +35,7 @@ export class ProductsPage extends BasePage {
   async dismissContinueShoppingModal() {
     const continueBtn = this.getLocator(ProductsPageSelectors.continueShoppingBtn);
     if (await continueBtn.isVisible().catch(() => false)) {
+      await this.waitForVisible(continueBtn, 15_000);
       await continueBtn.click();
     }
   }

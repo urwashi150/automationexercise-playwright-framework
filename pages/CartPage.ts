@@ -49,14 +49,17 @@ export class CartPage extends BasePage {
 
   async open() {
     await this.goto('/view_cart');
+    await this.waitForVisible(CartPageSelectors.proceedToCheckoutBtn, 20_000);
   }
 
   async getCartItemCount(): Promise<number> {
+    await this.waitForVisible(CartPageSelectors.cartRows, 15_000);
     return this.getLocator(CartPageSelectors.cartRows).count();
   }
 
   async proceedToCheckout() {
     await this.clickWhenReady(CartPageSelectors.proceedToCheckoutBtn);
+    await this.page.waitForLoadState('networkidle', { timeout: 20_000 });
   }
 
   async addOrderComment(comment: string) {

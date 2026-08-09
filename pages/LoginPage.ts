@@ -52,6 +52,7 @@ export class LoginPage extends BasePage {
   }
 
   async getLoginErrorText(): Promise<string | null> {
+    await this.waitForVisible(LoginPageSelectors.loginErrorMsg, 20_000);
     return this.getLocator(LoginPageSelectors.loginErrorMsg).textContent();
   }
 }

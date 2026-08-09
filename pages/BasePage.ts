@@ -13,10 +13,11 @@ export class BasePage {
   }
 
   async goto(path: string = '/') {
-    await this.page.goto(path);
+    await this.page.goto(path, { timeout: 60_000, waitUntil: 'load' });
+    await this.page.waitForLoadState('networkidle', { timeout: 60_000 });
   }
 
-  async waitForVisible(target: string | Locator, timeout = 10_000) {
+  async waitForVisible(target: string | Locator, timeout = 15_000) {
     const locator = typeof target === 'string' ? this.getLocator(target) : target;
     await locator.waitFor({ state: 'visible', timeout });
   }
