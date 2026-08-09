@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
  */
 test.describe('Products API @api', () => {
   test('GET /productsList returns 200 and a non-empty product list', async ({ request }) => {
-    const response = await request.get('/productsList');
+    const response = await request.get('productsList');
     expect(response.status()).toBe(200);
 
     const body = await response.json();
@@ -18,7 +18,7 @@ test.describe('Products API @api', () => {
   });
 
   test('each product in the list has required fields', async ({ request }) => {
-    const response = await request.get('/productsList');
+    const response = await request.get('productsList');
     const body = await response.json();
 
     const sample = body.products[0];
@@ -29,7 +29,7 @@ test.describe('Products API @api', () => {
   });
 
   test('POST /productsList is not supported and returns 405-style response', async ({ request }) => {
-    const response = await request.post('/productsList');
+    const response = await request.post('productsList');
     const body = await response.json();
 
     // The API returns HTTP 200 with responseCode 405 in its JSON payload
@@ -40,7 +40,7 @@ test.describe('Products API @api', () => {
   });
 
   test('GET /brandsList returns 200 and a non-empty brand list', async ({ request }) => {
-    const response = await request.get('/brandsList');
+    const response = await request.get('brandsList');
     const body = await response.json();
 
     expect(body.responseCode).toBe(200);

@@ -13,7 +13,7 @@ test.describe.serial('User Account Lifecycle API @api', () => {
   const name = 'QA Automation User';
 
   test('POST /createAccount creates a new user', async ({ request }) => {
-    const response = await request.post('/createAccount', {
+    const response = await request.post('createAccount', {
       form: {
         name,
         email,
@@ -41,7 +41,7 @@ test.describe.serial('User Account Lifecycle API @api', () => {
   });
 
   test('POST /verifyLogin confirms the new account authenticates', async ({ request }) => {
-    const response = await request.post('/verifyLogin', { form: { email, password } });
+    const response = await request.post('verifyLogin', { form: { email, password } });
     const body = await response.json();
 
     expect(body.responseCode).toBe(200);
@@ -49,7 +49,7 @@ test.describe.serial('User Account Lifecycle API @api', () => {
   });
 
   test('GET /getUserDetailByEmail returns the account we just created', async ({ request }) => {
-    const response = await request.get('/getUserDetailByEmail', { params: { email } });
+    const response = await request.get('getUserDetailByEmail', { params: { email } });
     const body = await response.json();
 
     expect(body.responseCode).toBe(200);
@@ -58,7 +58,7 @@ test.describe.serial('User Account Lifecycle API @api', () => {
   });
 
   test('PUT /updateAccount updates the account details', async ({ request }) => {
-    const response = await request.put('/updateAccount', {
+    const response = await request.put('updateAccount', {
       form: {
         name,
         email,
@@ -86,7 +86,7 @@ test.describe.serial('User Account Lifecycle API @api', () => {
   });
 
   test('DELETE /deleteAccount removes the account (cleanup)', async ({ request }) => {
-    const response = await request.delete('/deleteAccount', { form: { email, password } });
+    const response = await request.delete('deleteAccount', { form: { email, password } });
     const body = await response.json();
 
     expect(body.responseCode).toBe(200);
@@ -94,7 +94,7 @@ test.describe.serial('User Account Lifecycle API @api', () => {
   });
 
   test('verifyLogin fails after account deletion, confirming cleanup worked', async ({ request }) => {
-    const response = await request.post('/verifyLogin', { form: { email, password } });
+    const response = await request.post('verifyLogin', { form: { email, password } });
     const body = await response.json();
 
     expect(body.responseCode).toBe(404);
