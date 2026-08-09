@@ -2,9 +2,9 @@ name: API Playwright Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, configs]
   pull_request:
-    branches: [main]
+    branches: [main, configs]
   schedule:
     - cron: '0 3 * * *'
   workflow_dispatch: {}
