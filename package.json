@@ -11,6 +11,8 @@
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
+    "ci:ui": "playwright test tests/ui",
+    "ci:api": "playwright test --project=api tests/api",
     "report": "playwright show-report",
     "codegen": "playwright codegen https://automationexercise.com"
   },

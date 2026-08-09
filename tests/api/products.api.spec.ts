@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { jsonHeaders, parseJsonResponse, retryRequest } from './apiHelpers';
 
 /**
  * Direct API tests against automationexercise.com's public API.
@@ -8,18 +9,18 @@ import { test, expect } from '@playwright/test';
  */
 test.describe('Products API @api', () => {
   test('GET /productsList returns 200 and a non-empty product list', async ({ request }) => {
-    const response = await request.get('productsList');
+    const response = await retryRequest(() => request.get('productsList', { headers: jsonHeaders }));
     expect(response.status()).toBe(200);
 
-    const body = await response.json();
+    const body = await parseJsonResponse(response);
     expect(body.responseCode).toBe(200);
     expect(Array.isArray(body.products)).toBeTruthy();
     expect(body.products.length).toBeGreaterThan(0);
   });
 
   test('each product in the list has required fields', async ({ request }) => {
-    const response = await request.get('productsList');
-    const body = await response.json();
+    const response = await retryRequest(() => request.get('productsList', { headers: jsonHeaders }));
+    const body = await parseJsonResponse(response);
 
     const sample = body.products[0];
     expect(sample).toHaveProperty('id');
@@ -29,8 +30,8 @@ test.describe('Products API @api', () => {
   });
 
   test('POST /productsList is not supported and returns 405-style response', async ({ request }) => {
-    const response = await request.post('productsList');
-    const body = await response.json();
+    const response = await retryRequest(() => request.post('productsList', { headers: jsonHeaders }));
+    const body = await parseJsonResponse(response);
 
     // The API returns HTTP 200 with responseCode 405 in its JSON payload
     // for unsupported methods -- documenting that quirk here rather than
@@ -40,8 +41,8 @@ test.describe('Products API @api', () => {
   });
 
   test('GET /brandsList returns 200 and a non-empty brand list', async ({ request }) => {
-    const response = await request.get('brandsList');
-    const body = await response.json();
+    const response = await retryRequest(() => request.get('brandsList', { headers: jsonHeaders }));
+    const body = await parseJsonResponse(response);
 
     expect(body.responseCode).toBe(200);
     expect(Array.isArray(body.brands)).toBeTruthy();
