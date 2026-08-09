@@ -1,30 +1,38 @@
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { LoginPageSelectors } from './selectors';
 
 export class LoginPage extends BasePage {
-  // Login form
-  readonly loginEmailInput: Locator;
-  readonly loginPasswordInput: Locator;
-  readonly loginBtn: Locator;
-  readonly loginErrorMsg: Locator;
+  get loginEmailInput(): Locator {
+    return this.getLocator(LoginPageSelectors.loginEmailInput);
+  }
 
-  // Signup form
-  readonly signupNameInput: Locator;
-  readonly signupEmailInput: Locator;
-  readonly signupBtn: Locator;
-  readonly signupErrorMsg: Locator;
+  get loginPasswordInput(): Locator {
+    return this.getLocator(LoginPageSelectors.loginPasswordInput);
+  }
 
-  constructor(page: Page) {
-    super(page);
-    this.loginEmailInput = page.locator('[data-qa="login-email"]');
-    this.loginPasswordInput = page.locator('[data-qa="login-password"]');
-    this.loginBtn = page.locator('[data-qa="login-button"]');
-    this.loginErrorMsg = page.locator('p:has-text("Your email or password is incorrect!")');
+  get loginBtn(): Locator {
+    return this.getLocator(LoginPageSelectors.loginBtn);
+  }
 
-    this.signupNameInput = page.locator('[data-qa="signup-name"]');
-    this.signupEmailInput = page.locator('[data-qa="signup-email"]');
-    this.signupBtn = page.locator('[data-qa="signup-button"]');
-    this.signupErrorMsg = page.locator('p:has-text("Email Address already exist!")');
+  get loginErrorMsg(): Locator {
+    return this.getLocator(LoginPageSelectors.loginErrorMsg);
+  }
+
+  get signupNameInput(): Locator {
+    return this.getLocator(LoginPageSelectors.signupNameInput);
+  }
+
+  get signupEmailInput(): Locator {
+    return this.getLocator(LoginPageSelectors.signupEmailInput);
+  }
+
+  get signupBtn(): Locator {
+    return this.getLocator(LoginPageSelectors.signupBtn);
+  }
+
+  get signupErrorMsg(): Locator {
+    return this.getLocator(LoginPageSelectors.signupErrorMsg);
   }
 
   async open() {
@@ -32,18 +40,18 @@ export class LoginPage extends BasePage {
   }
 
   async login(email: string, password: string) {
-    await this.fillField(this.loginEmailInput, email);
-    await this.fillField(this.loginPasswordInput, password);
-    await this.clickWhenReady(this.loginBtn);
+    await this.fillField(LoginPageSelectors.loginEmailInput, email);
+    await this.fillField(LoginPageSelectors.loginPasswordInput, password);
+    await this.clickWhenReady(LoginPageSelectors.loginBtn);
   }
 
   async startSignup(name: string, email: string) {
-    await this.fillField(this.signupNameInput, name);
-    await this.fillField(this.signupEmailInput, email);
-    await this.clickWhenReady(this.signupBtn);
+    await this.fillField(LoginPageSelectors.signupNameInput, name);
+    await this.fillField(LoginPageSelectors.signupEmailInput, email);
+    await this.clickWhenReady(LoginPageSelectors.signupBtn);
   }
 
   async getLoginErrorText(): Promise<string | null> {
-    return this.loginErrorMsg.textContent();
+    return this.getLocator(LoginPageSelectors.loginErrorMsg).textContent();
   }
 }

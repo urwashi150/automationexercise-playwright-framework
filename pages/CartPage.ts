@@ -1,34 +1,50 @@
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { CartPageSelectors } from './selectors';
 
 export class CartPage extends BasePage {
-  readonly cartRows: Locator;
-  readonly proceedToCheckoutBtn: Locator;
-  readonly registerLoginLink: Locator;
-  readonly commentTextArea: Locator;
-  readonly placeOrderBtn: Locator;
-  readonly cardNameInput: Locator;
-  readonly cardNumberInput: Locator;
-  readonly cardCvcInput: Locator;
-  readonly cardExpMonthInput: Locator;
-  readonly cardExpYearInput: Locator;
-  readonly payAndConfirmBtn: Locator;
-  readonly orderSuccessMsg: Locator;
+  get proceedToCheckoutBtn(): Locator {
+    return this.getLocator(CartPageSelectors.proceedToCheckoutBtn);
+  }
 
-  constructor(page: Page) {
-    super(page);
-    this.cartRows = page.locator('tbody tr');
-    this.proceedToCheckoutBtn = page.locator('a:has-text("Proceed To Checkout")');
-    this.registerLoginLink = page.locator('a[href="/login"]');
-    this.commentTextArea = page.locator('textarea[name="message"]');
-    this.placeOrderBtn = page.locator('a:has-text("Place Order")');
-    this.cardNameInput = page.locator('[data-qa="name-on-card"]');
-    this.cardNumberInput = page.locator('[data-qa="card-number"]');
-    this.cardCvcInput = page.locator('[data-qa="cvc"]');
-    this.cardExpMonthInput = page.locator('[data-qa="expiry-month"]');
-    this.cardExpYearInput = page.locator('[data-qa="expiry-year"]');
-    this.payAndConfirmBtn = page.locator('[data-qa="pay-button"]');
-    this.orderSuccessMsg = page.locator('h2:has-text("Order Placed!")');
+  get registerLoginLink(): Locator {
+    return this.getLocator(CartPageSelectors.registerLoginLink);
+  }
+
+  get commentTextArea(): Locator {
+    return this.getLocator(CartPageSelectors.commentTextArea);
+  }
+
+  get placeOrderBtn(): Locator {
+    return this.getLocator(CartPageSelectors.placeOrderBtn);
+  }
+
+  get cardNameInput(): Locator {
+    return this.getLocator(CartPageSelectors.cardNameInput);
+  }
+
+  get cardNumberInput(): Locator {
+    return this.getLocator(CartPageSelectors.cardNumberInput);
+  }
+
+  get cardCvcInput(): Locator {
+    return this.getLocator(CartPageSelectors.cardCvcInput);
+  }
+
+  get cardExpMonthInput(): Locator {
+    return this.getLocator(CartPageSelectors.cardExpMonthInput);
+  }
+
+  get cardExpYearInput(): Locator {
+    return this.getLocator(CartPageSelectors.cardExpYearInput);
+  }
+
+  get payAndConfirmBtn(): Locator {
+    return this.getLocator(CartPageSelectors.payAndConfirmBtn);
+  }
+
+  get orderSuccessMsg(): Locator {
+    return this.getLocator(CartPageSelectors.orderSuccessMsg);
   }
 
   async open() {
@@ -36,30 +52,30 @@ export class CartPage extends BasePage {
   }
 
   async getCartItemCount(): Promise<number> {
-    return this.cartRows.count();
+    return this.getLocator(CartPageSelectors.cartRows).count();
   }
 
   async proceedToCheckout() {
-    await this.clickWhenReady(this.proceedToCheckoutBtn);
+    await this.clickWhenReady(CartPageSelectors.proceedToCheckoutBtn);
   }
 
   async addOrderComment(comment: string) {
-    await this.fillField(this.commentTextArea, comment);
+    await this.fillField(CartPageSelectors.commentTextArea, comment);
   }
 
   async placeOrder() {
-    await this.clickWhenReady(this.placeOrderBtn);
+    await this.clickWhenReady(CartPageSelectors.placeOrderBtn);
   }
 
   async fillPaymentDetails(name: string, cardNumber: string, cvc: string, month: string, year: string) {
-    await this.fillField(this.cardNameInput, name);
-    await this.fillField(this.cardNumberInput, cardNumber);
-    await this.fillField(this.cardCvcInput, cvc);
-    await this.fillField(this.cardExpMonthInput, month);
-    await this.fillField(this.cardExpYearInput, year);
+    await this.fillField(CartPageSelectors.cardNameInput, name);
+    await this.fillField(CartPageSelectors.cardNumberInput, cardNumber);
+    await this.fillField(CartPageSelectors.cardCvcInput, cvc);
+    await this.fillField(CartPageSelectors.cardExpMonthInput, month);
+    await this.fillField(CartPageSelectors.cardExpYearInput, year);
   }
 
   async confirmPayment() {
-    await this.clickWhenReady(this.payAndConfirmBtn);
+    await this.clickWhenReady(CartPageSelectors.payAndConfirmBtn);
   }
 }

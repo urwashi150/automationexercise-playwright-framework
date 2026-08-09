@@ -8,20 +8,27 @@ import { Page, Locator, expect } from '@playwright/test';
 export class BasePage {
   constructor(protected readonly page: Page) {}
 
+  protected getLocator(selector: string): Locator {
+    return this.page.locator(selector);
+  }
+
   async goto(path: string = '/') {
     await this.page.goto(path);
   }
 
-  async waitForVisible(locator: Locator, timeout = 10_000) {
+  async waitForVisible(target: string | Locator, timeout = 10_000) {
+    const locator = typeof target === 'string' ? this.getLocator(target) : target;
     await locator.waitFor({ state: 'visible', timeout });
   }
 
-  async clickWhenReady(locator: Locator) {
+  async clickWhenReady(target: string | Locator) {
+    const locator = typeof target === 'string' ? this.getLocator(target) : target;
     await this.waitForVisible(locator);
     await locator.click();
   }
 
-  async fillField(locator: Locator, value: string) {
+  async fillField(target: string | Locator, value: string) {
+    const locator = typeof target === 'string' ? this.getLocator(target) : target;
     await this.waitForVisible(locator);
     await locator.fill(value);
   }
@@ -34,7 +41,8 @@ export class BasePage {
     await expect(this.page).toHaveURL(new RegExp(fragment));
   }
 
-  async scrollToElement(locator: Locator) {
+  async scrollToElement(target: string | Locator) {
+    const locator = typeof target === 'string' ? this.getLocator(target) : target;
     await locator.scrollIntoViewIfNeeded();
   }
 

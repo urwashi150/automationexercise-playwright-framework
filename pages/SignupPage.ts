@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { SignupPageSelectors } from './selectors';
 
 export interface AccountDetails {
   password: string;
@@ -40,24 +41,24 @@ export class SignupPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.titleMr = page.locator('#id_gender1');
-    this.passwordInput = page.locator('#password');
-    this.daysSelect = page.locator('#days');
-    this.monthsSelect = page.locator('#months');
-    this.yearsSelect = page.locator('#years');
-    this.newsletterCheckbox = page.locator('#newsletter');
-    this.offersCheckbox = page.locator('#optin');
-    this.firstNameInput = page.locator('#first_name');
-    this.lastNameInput = page.locator('#last_name');
-    this.addressInput = page.locator('#address1');
-    this.countrySelect = page.locator('#country');
-    this.stateInput = page.locator('#state');
-    this.cityInput = page.locator('#city');
-    this.zipcodeInput = page.locator('#zipcode');
-    this.mobileNumberInput = page.locator('#mobile_number');
-    this.createAccountBtn = page.locator('[data-qa="create-account"]');
-    this.accountCreatedMsg = page.locator('[data-qa="account-created"]');
-    this.continueBtn = page.locator('[data-qa="continue-button"]');
+    this.titleMr = page.locator(SignupPageSelectors.titleMr);
+    this.passwordInput = page.locator(SignupPageSelectors.passwordInput);
+    this.daysSelect = page.locator(SignupPageSelectors.daysSelect);
+    this.monthsSelect = page.locator(SignupPageSelectors.monthsSelect);
+    this.yearsSelect = page.locator(SignupPageSelectors.yearsSelect);
+    this.newsletterCheckbox = page.locator(SignupPageSelectors.newsletterCheckbox);
+    this.offersCheckbox = page.locator(SignupPageSelectors.offersCheckbox);
+    this.firstNameInput = page.locator(SignupPageSelectors.firstNameInput);
+    this.lastNameInput = page.locator(SignupPageSelectors.lastNameInput);
+    this.addressInput = page.locator(SignupPageSelectors.addressInput);
+    this.countrySelect = page.locator(SignupPageSelectors.countrySelect);
+    this.stateInput = page.locator(SignupPageSelectors.stateInput);
+    this.cityInput = page.locator(SignupPageSelectors.cityInput);
+    this.zipcodeInput = page.locator(SignupPageSelectors.zipcodeInput);
+    this.mobileNumberInput = page.locator(SignupPageSelectors.mobileNumberInput);
+    this.createAccountBtn = page.locator(SignupPageSelectors.createAccountBtn);
+    this.accountCreatedMsg = page.locator(SignupPageSelectors.accountCreatedMsg);
+    this.continueBtn = page.locator(SignupPageSelectors.continueBtn);
   }
 
   async fillAccountDetails(details: AccountDetails) {
