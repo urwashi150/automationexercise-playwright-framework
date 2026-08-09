@@ -1,3 +1,4 @@
+import { SignupPageSelectors } from '@pages/selectors';
 import { test, expect } from '../../fixtures/pageFixtures';
 import { TestDataGenerator } from '../../utils/testDataGenerator';
 
@@ -29,7 +30,7 @@ test.describe('User Registration', () => {
     });
 
     await signupPage.submitAccountCreation();
-    await expect(signupPage.accountCreatedMsg).toBeVisible();
+    await expect(page.locator(SignupPageSelectors.accountCreatedMsg)).toBeVisible();
 
     await signupPage.continueAfterAccountCreated();
     const loggedIn = await homePage.isLoggedInAs(name);
