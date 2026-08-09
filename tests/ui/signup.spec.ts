@@ -40,15 +40,17 @@ test.describe('User Registration', () => {
   test('signup fails gracefully with an already-registered email', async ({ homePage, loginPage, page }) => {
     // Uses a stable seeded email; replace with a known existing account
     // on the target environment, or seed one via the API layer first.
-    const existingEmail = 'existing.qa.user@example.com';
+    const existingEmail = 'urwashi123patidar@gmail.com';
 
     await homePage.open();
     await homePage.goToSignupLogin();
     await loginPage.startSignup(TestDataGenerator.randomName(), existingEmail);
+    await expect(page).toHaveURL(/signup/);
 
     // automationexercise.com stays on /login and shows an inline error
     // when the email is already registered.
     const errorVisible = await loginPage.signupErrorMsg.isVisible().catch(() => false);
-    expect(errorVisible || page.url().includes('/login')).toBeTruthy();
+    expect(errorVisible || page.url().includes('login')).toBeTruthy();
+    await expect(loginPage.signupErrorMsg).toHaveText('Email Address already exist!');
   });
 });
