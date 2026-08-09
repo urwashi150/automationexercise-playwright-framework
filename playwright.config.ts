@@ -47,6 +47,7 @@ export default defineConfig({
     {
       name: 'api',
       testDir: './tests/api',
+      retries: process.env.CI ? 2 : 1,
       use: {
         baseURL: ENV.API_BASE_URL,
       },
